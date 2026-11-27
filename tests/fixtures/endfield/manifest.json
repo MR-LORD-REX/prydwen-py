@@ -1,0 +1,58 @@
+[
+  {
+    "fixture": "characters.html",
+    "url": "https://www.prydwen.gg/arknights-endfield/characters",
+    "captured_on": "2026-11-27",
+    "source_sha256": "7db1c0eb4920abca082695891b2b170144a39b6e2ad90d083c1512b31df86013",
+    "fixture_sha256": "3fbee1535c9eb6eb701e9a507bfb4fc9066c0ff9c77a2c53cb3746ce52627c5f",
+    "transformation": "Relevant DOM, SVG geometry removed; literal Flight text reframed across 2000-character chunks."
+  },
+  {
+    "fixture": "weapons.html",
+    "url": "https://www.prydwen.gg/arknights-endfield/weapons",
+    "captured_on": "2026-11-27",
+    "source_sha256": "674fd2a67d1283ed789d41088e6cbdcbc176e867ebbd03a25f01e52a0c32829a",
+    "fixture_sha256": "84f73576259f030668f367e977968179f6aa85070f71120a589c34523e3a8e85",
+    "transformation": "Relevant DOM, SVG geometry removed; literal Flight text reframed across 2000-character chunks."
+  },
+  {
+    "fixture": "gear.html",
+    "url": "https://www.prydwen.gg/arknights-endfield/gear",
+    "captured_on": "2026-11-27",
+    "source_sha256": "e49b2ffe325b062ce645f6d159f914e1317d068c1a44430061e7dba466f7be59",
+    "fixture_sha256": "7ba0c805397f77a09494f3753bb68635e22e4ae17bfbeeef13e68270356fe5bf",
+    "transformation": "Relevant DOM, SVG geometry removed; literal Flight text reframed across 2000-character chunks."
+  },
+  {
+    "fixture": "banners.html",
+    "url": "https://www.prydwen.gg/arknights-endfield/banners",
+    "captured_on": "2026-11-27",
+    "source_sha256": "efadc1acdef6b56fdb830171751510aeba79d758d79f0bf3c7f79180f7a1aab6",
+    "fixture_sha256": "8694810344021150b4567ae0777457ff88ce0c8f4a33ca9e51e314d9a58a000c",
+    "transformation": "Relevant DOM, SVG geometry removed; literal Flight text reframed across 2000-character chunks."
+  },
+  {
+    "fixture": "tier-list.html",
+    "url": "https://www.prydwen.gg/arknights-endfield/tier-list",
+    "captured_on": "2026-11-27",
+    "source_sha256": "40b0e62050a1b03f6f3442cad2ad1c8d11ffdb1b4394e4e871741861a8eaafee",
+    "fixture_sha256": "b00737a91f5a588b947e5b04eabc574dcb0e24da2b2cd801bf3d4fecffd8c47a",
+    "transformation": "Relevant DOM, SVG geometry removed; literal Flight text reframed across 2000-character chunks."
+  },
+  {
+    "fixture": "team-tier-list.html",
+    "url": "https://www.prydwen.gg/arknights-endfield/team-tier-list",
+    "captured_on": "2026-11-27",
+    "source_sha256": "ce834c8ca2743aedd609836980e0668c95eaa7abc0244315fad653482605b2dd",
+    "fixture_sha256": "bc56d7aad5127bfe9f6948f3287f79ed9ba7c0274df84029a6b246c42c6989d0",
+    "transformation": "Relevant DOM, SVG geometry removed; literal Flight text reframed across 2000-character chunks."
+  },
+  {
+    "fixture": "codes.html",
+    "url": "https://www.prydwen.gg/arknights-endfield/codes",
+    "captured_on": "2026-11-27",
+    "source_sha256": "f3b7139f094002186913cadbbf01ae7a0e9183e141f07ade05383ab7e739644f",
+    "fixture_sha256": "b4941993d0d386941119a30b7f9fe18d35d5f3bee47dfe1affa66a66a943ccf2",
+    "transformation": "Relevant DOM, SVG geometry removed; literal Flight text reframed across 2000-character chunks."
+  }
+]

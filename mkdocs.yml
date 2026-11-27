@@ -1,0 +1,47 @@
+site_name: prydwen-py
+site_description: Async Prydwen guide data, typed models, and local caching.
+docs_dir: docs
+site_dir: site
+theme:
+  name: material
+  palette:
+    - scheme: slate
+      primary: blue grey
+      accent: cyan
+      toggle:
+        icon: material/brightness-7
+        name: Switch to light mode
+    - scheme: default
+      primary: blue grey
+      accent: cyan
+      toggle:
+        icon: material/brightness-4
+        name: Switch to dark mode
+  features:
+    - navigation.sections
+    - navigation.top
+    - content.code.copy
+markdown_extensions:
+  - admonition
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - toc:
+      permalink: true
+nav:
+  - Overview: index.md
+  - Getting started:
+      - Installation: getting-started/installation.md
+      - Quickstart: getting-started/quickstart.md
+  - Guides:
+      - Caching and refresh: guides/caching.md
+      - Assets and stats: guides/assets-and-stats.md
+      - Banners and codes: guides/banners-and-codes.md
+      - Errors and retries: guides/errors-and-retries.md
+  - Reference:
+      - Prydwen client: reference/client.md
+      - Endfield methods: reference/endfield.md
+      - Output models: reference/output-models.md
+  - Maintainers:
+      - Architecture and games: maintainers/architecture.md
+      - Testing: maintainers/testing.md
+      - Publishing and Pages: maintainers/publishing.md

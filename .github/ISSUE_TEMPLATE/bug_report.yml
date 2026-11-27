@@ -1,0 +1,26 @@
+name: Bug report
+description: Report a parser, model, transport, or cache problem.
+body:
+  - type: input
+    id: version
+    attributes:
+      label: Library and Python version
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Minimal reproduction and affected endpoint
+      description: Include method arguments, expected output, and actual output. Remove credentials and cookies.
+    validations:
+      required: true
+  - type: textarea
+    id: traceback
+    attributes:
+      label: Exception or diagnostics
+      render: text
+  - type: dropdown
+    id: refresh
+    attributes:
+      label: Does force_new=True reproduce it?
+      options: ['Yes', 'No', 'Not checked']

@@ -1,0 +1,1 @@
+"""Independently implemented game clients."""
