@@ -35,4 +35,6 @@ await Prydwen.clear_cache(game=None, *, resource=None, cache_dir=None)
 
 `game` accepts `"arknights-endfield"` or None for all supported games. `resource` selects a known resource key or None for the whole game. Resource and game names are validated; arbitrary filesystem paths are not accepted as selectors. Use `cache_dir` to match a client's custom root.
 
+The `"character_builds"` resource selects the entire group of character guides. It keeps the character discovery index unless that index or the whole game is also cleared.
+
 This operation requires no HTTP client and makes no requests. A missing cache is harmless. Unsafe linked targets and filesystem failures raise `CacheError`.

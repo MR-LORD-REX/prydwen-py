@@ -33,6 +33,7 @@ nav:
       - Installation: getting-started/installation.md
       - Quickstart: getting-started/quickstart.md
   - Guides:
+      - Character builds: guides/character-builds.md
       - Caching and refresh: guides/caching.md
       - Assets and stats: guides/assets-and-stats.md
       - Banners and codes: guides/banners-and-codes.md

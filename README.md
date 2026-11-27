@@ -40,6 +40,7 @@ asyncio.run(main())
 
 - `list_characters()`, `list_weapons()`, `list_gears()`, `list_gear_sets()` return lists of name/identifier models.
 - `characters()` returns `AllCharacters` with `.characters` and `.total_count`.
+- `character_build(identifier, detailed=True)` returns builds, review ratings, best teams, damage charts, and rotations. `detailed=False` shortens prose while retaining all structured data and highlights.
 - `gear(identifier)` returns a specific `Gear`; `gear_set(identifier)` returns a `GearSet` with `.gears`, `.bonuses`, and `.total_count`.
 - `banners()`, `current_banners()`, and `upcoming_banners()` accept `banner_type="both"`, `"character"`, or `"weapon"`. Upcoming includes teased entries.
 - `redeem_codes()` returns currently source-listed active codes and rewards, applying known expiry at read time.
@@ -56,7 +57,7 @@ await Prydwen.clear_cache("arknights-endfield", resource="characters")
 
 Requests use aiohttp and switch to a serialized cloudscraper worker for recognized Cloudflare challenges. The default request interval is 10 seconds. Cache hits do not make network requests. Challenges requiring interactive verification raise a typed error.
 
-Character summaries do not include detail-page builds or skills yet. Source omissions remain unknown; contradictory banner dates are preserved with diagnostics. Images are returned as URLs rather than downloaded. This library is an independent project; source content and artwork belong to their respective owners.
+Use `characters()` for index summaries and `character_build()` for an individual guide. See [character builds](docs/guides/character-builds.md) for renderer examples and concise output. Source omissions remain unknown; contradictory banner dates are preserved with diagnostics. Images are returned as URLs rather than downloaded. This library is an independent project; source content and artwork belong to their respective owners.
 
 ## Documentation and development
 

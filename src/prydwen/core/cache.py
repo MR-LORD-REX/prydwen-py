@@ -7,6 +7,7 @@ import hashlib
 import json
 import logging
 import os
+import re
 import shutil
 import tempfile
 import weakref
@@ -96,6 +97,21 @@ class JsonCache:
         self.locks = {resource: asyncio.Lock() for resource in resources}
         _MANAGERS.add(self)
 
+    def register(self, resource: str) -> None:
+        """Register a contained entity key beneath an already supported resource group."""
+        if resource in self.resources:
+            return
+        group, separator, identifier = resource.partition("/")
+        if (
+            not separator
+            or group not in self.resources
+            or not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", identifier)
+        ):
+            raise ValueError(f"Unknown cache resource: {resource}")
+        self.resources.add(resource)
+        self.generations[resource] = self.generations[group]
+        self.locks[resource] = asyncio.Lock()
+
     def path(self, resource: str) -> Path:
         """Resolve a known resource key to its contained cache file."""
         if resource not in self.resources and resource != "metadata":
@@ -177,7 +193,12 @@ class JsonCache:
                     {"identifier": entity.identifier, "name": entity.name}
                     for field in ("characters", "weapons", "gears", "gear_sets")
                     for entity in getattr(data, field, [])
+                    if hasattr(entity, "identifier") and hasattr(entity, "name")
                 ]
+                character = getattr(data, "character", None)
+                if character is not None:
+                    paths.append(str(character.page_url))
+                    identifiers.append({"identifier": character.identifier, "name": character.name})
                 fragments[resource] = {
                     "fingerprint": fingerprint,
                     "source": data.source.model_dump(mode="json"),
@@ -206,13 +227,18 @@ async def clear_game_cache(root: Path, game: str, resources: set[str], resource:
     async with mutation_lock(root, game):
         for manager in list(_MANAGERS):
             if manager.root == root and manager.game == game:
-                for key in [resource] if resource else resources:
-                    manager.generations[key] += 1
+                for key in manager.generations:
+                    if resource is None or key == resource or key.startswith(resource + "/"):
+                        manager.generations[key] += 1
         target = safe_path(root, root / game / f"{resource}.json" if resource else root / game)
+        group_target = safe_path(root, root / game / resource) if resource else target
         metadata_path = safe_path(root, root / game / "metadata.json")
         try:
             if resource:
-                await complete_io(target.unlink, missing_ok=True)
+                if group_target.is_dir():
+                    await complete_io(shutil.rmtree, group_target)
+                else:
+                    await complete_io(target.unlink, missing_ok=True)
                 await complete_io(metadata_path.unlink, missing_ok=True)
             elif target.exists():
                 await complete_io(shutil.rmtree, target)

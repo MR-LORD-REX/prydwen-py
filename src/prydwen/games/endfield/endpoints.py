@@ -13,6 +13,8 @@ RESOURCES: Final = {
     "team_tier_list": "team-tier-list",
     "codes": "codes",
 }
+CHARACTER_BUILDS: Final = "character_builds"
+CACHE_RESOURCES: Final = {*RESOURCES, CHARACTER_BUILDS}
 
 
 def resource_url(resource: str) -> str:

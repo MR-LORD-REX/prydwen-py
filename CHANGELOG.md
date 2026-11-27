@@ -3,6 +3,8 @@
 ## 0.1.0 - Unreleased
 
 - Add the asynchronous `Prydwen.Endfield()` client and the first thirteen data methods.
+- Add `character_build()` with complete builds, review ratings, best teams, optional damage pies, and timed or ordered rotations.
+- Add concise prose views that preserve all structured records, highlights, media, and shared full-guide caches, with regression captures for every inspected character.
 - Parse character and equipment catalogs, gear sets, regional banners, redeem codes, and both tier lists.
 - Preserve source identifiers, item assets, unknown stats, duplicate role/form placements, and team-slot alternatives.
 - Add persistent validated JSON caches and shared cache clearing.

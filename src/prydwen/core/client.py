@@ -77,6 +77,8 @@ class GameClient:
             raise ClientClosedError("Use an active 'async with Prydwen.Endfield()' context")
         if not isinstance(force_new, bool):
             raise TypeError("force_new must be a bool")
+        self._cache.register(resource)
+        self._refreshes.setdefault(resource, 0)
         queued_refresh = self._refreshes[resource]
         async with self._cache.locks[resource]:
             generation = self._cache.generations[resource]

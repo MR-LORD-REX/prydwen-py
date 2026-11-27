@@ -13,6 +13,20 @@ Game clients choose a resource, model, and pure parser. The shared loader manage
 
 The site uses streaming SSR, including primary DOM content inside hidden containers. Select known section roots without discarding hidden content. The embedded adapter decodes a bounded subset of literal Next.js JSON text frames; it never evaluates JavaScript or treats unstable Flight IDs/array positions as selectors. Missing optional embedded enrichment falls back to DOM with diagnostics; missing required identities raises an error.
 
+## Character guide pipeline
+
+The Endfield client discovers character URLs from the index and loads one guide under `character_builds/<identifier>`. Shared transport and caching still own all I/O. The pure parser is split by responsibility:
+
+- `parsers/builds.py` validates the page owner and semantic tab/section headings, then assembles review ratings, availability, calculation setups, and chart data.
+- `parsers/build_common.py` resolves source character/equipment references and converts prose to ordered safe blocks with emphasis, links, and media.
+- `parsers/build_equipment.py` handles ranked recommendations, grouped replacements, individual-slot comparisons, potentials, and skill priority.
+- `parsers/build_teams.py` keeps each team's guide local and extracts both timed lanes and untimed instructions. Marker positions calibrate timeline geometry; block widths describe display spans.
+- `models/builds.py` defines the renderer contracts. `build_text.py` produces concise prose without filtering any structured records.
+
+DOM order remains authoritative for rankings, loadouts, teams, and prose. Embedded literal JSON enriches identity/stats and supplies chart slices absent from the SSR chart container. Required DOM/metadata count disagreements fail explicitly. Unknown optional enrichment produces diagnostics instead of invented stats or chart values.
+
+Full guides are always cached. Concise projection runs after loading, including on a cache hit, and cannot replace the cached full model. Dynamic cache keys are contained beneath their registered resource group. Clearing that group invalidates in-flight child writes as well as removing existing guide files.
+
 ## Add another game
 
 1. Create `src/prydwen/games/<game>/` with endpoints, client, models, and parsers.
@@ -23,4 +37,4 @@ The site uses streaming SSR, including primary DOM content inside hidden contain
 
 Keep source keys, display names, official game IDs, and local fallback identifiers distinct. New games can use different domain models while sharing only transport/cache/provenance primitives. Do not add game-specific selectors to the shared loader.
 
-The original research design is in `plan.md`. Runtime models use lists for the user's collection contract and collection metadata directly on each dataset. There is no separate envelope object in the public return API.
+Runtime models use lists for the user's collection contract and collection metadata directly on each dataset. There is no separate envelope object in the public return API.

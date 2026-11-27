@@ -19,7 +19,19 @@ Each entry has `.name` and `.identifier`. Source order is retained. Gear and gea
 await endfield.characters(*, force_new=False) -> AllCharacters
 ```
 
-The result contains `.characters`, `.total_count`, `.source`, `.diagnostics`, and `.delivery`. Each character supplies general index metadata and assets. Detailed skills, builds, and character-specific methods are not implemented yet.
+The result contains `.characters`, `.total_count`, `.source`, `.diagnostics`, and `.delivery`. Each character supplies general index metadata and assets.
+
+## Character builds
+
+```python
+await endfield.character_build(identifier: str, detailed: bool = True, *, force_new=False) -> CharacterBuild
+```
+
+Use an exact identifier from `list_characters()`, such as `"si"`. The result contains `.character`, `.review` (role/form ratings, pros, cons, and review content), `.weapons`, `.gear_sets`, `.gear_pieces`, `.potentials`, `.skill_priority`, `.synergies`, `.teams`, `.calculations`, `.notes`, `.updates`, `.availability`, and the normal provenance fields.
+
+`detailed=False` shortens descriptions and explanations using source sentences. All equipment alternatives, rankings, comparisons, ratings, team members, chart slices, rotation instructions, media, links, and highlighted phrases remain available. Both modes reuse the same full cached guide. Unpublished sections have explicit availability states.
+
+The character index discovers the actual page URL; it is fetched once if missing. `force_new=True` refreshes only the selected character page. Refresh `characters(force_new=True)` to discover a new character when an older index is cached. Invalid slugs raise `ValueError`; non-boolean flags raise `TypeError`; unknown identifiers raise `NotFoundError`. See the [build guide](../guides/character-builds.md) for examples and timing semantics.
 
 ## Gear and sets
 

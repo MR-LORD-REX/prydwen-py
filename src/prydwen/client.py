@@ -4,7 +4,7 @@ from pathlib import Path
 
 from .core.cache import clear_game_cache, default_root
 from .games.endfield.client import EndfieldClient
-from .games.endfield.endpoints import GAME, RESOURCES
+from .games.endfield.endpoints import CACHE_RESOURCES, GAME
 
 
 class Prydwen:
@@ -23,7 +23,7 @@ class Prydwen:
 
         Args:
             game: 'arknights-endfield' or None for all supported games.
-            resource: Optional resource key, such as 'characters' or 'tier_list'.
+            resource: Optional section key or 'character_builds' for all character guides.
             cache_dir: Root override; defaults to CWD/.prywen_cache.
         Raises:
             ValueError: If a game or resource is not supported.
@@ -31,4 +31,4 @@ class Prydwen:
         """
         if game not in {None, GAME}:
             raise ValueError(f"Unsupported game: {game}")
-        await clear_game_cache(default_root(cache_dir), GAME, set(RESOURCES), resource)
+        await clear_game_cache(default_root(cache_dir), GAME, set(CACHE_RESOURCES), resource)

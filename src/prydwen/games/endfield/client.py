@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import re
+from functools import partial
 from pathlib import Path
 
 from prydwen.core.client import GameClient
@@ -9,7 +11,8 @@ from prydwen.core.models import Identifier
 from prydwen.core.transport import PageTransport
 from prydwen.exceptions import NotFoundError
 
-from .endpoints import GAME, RESOURCES, resource_url
+from .build_text import concise_build
+from .endpoints import CACHE_RESOURCES, CHARACTER_BUILDS, GAME, resource_url
 from .models import (
     AllBanners,
     AllCharacters,
@@ -23,7 +26,9 @@ from .models import (
     TeamTierList,
     TierList,
 )
+from .models.builds import CharacterBuild
 from .parsers.banners import parse_banners
+from .parsers.builds import parse_character_build
 from .parsers.characters import parse_characters
 from .parsers.codes import parse_codes
 from .parsers.gear import parse_gear
@@ -54,7 +59,7 @@ class EndfieldClient(GameClient):
     ) -> None:
         super().__init__(
             GAME,
-            set(RESOURCES),
+            set(CACHE_RESOURCES),
             cache_dir=cache_dir,
             timeout=timeout,
             request_interval=request_interval,
@@ -129,6 +134,43 @@ class EndfieldClient(GameClient):
         return await self._load(
             "characters", resource_url("characters"), AllCharacters, parse_characters, force_new
         )
+
+    async def character_build(
+        self, identifier: str, detailed: bool = True, *, force_new: bool = False
+    ) -> CharacterBuild:
+        """Retrieve a character's full build, review ratings, teams, charts, and rotations.
+
+        Args:
+            identifier: Exact character identifier from list_characters(), such as 'si'.
+            detailed: Keep full prose when True. False shortens descriptions and explanations
+                while preserving all equipment, comparisons, teams, charts, rotations, and highlights.
+            force_new: Fetch this character's page again and replace its full cached guide.
+        Returns:
+            CharacterBuild with review, weapons, gear_sets, gear_pieces, potentials, skill_priority,
+            synergies, teams, calculations, availability, source, diagnostics, and delivery metadata.
+            Missing unpublished content is reported explicitly instead of invented.
+        Raises:
+            ValueError: If identifier is not a safe source slug.
+            TypeError: If detailed or force_new is not a bool.
+            NotFoundError: If the identifier is absent from the character index.
+            PrydwenError: If retrieval, parsing, client lifecycle, or storage fails.
+        """
+        if not isinstance(identifier, str) or not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", identifier):
+            raise ValueError("identifier must be an exact character slug from list_characters()")
+        if not isinstance(detailed, bool) or not isinstance(force_new, bool):
+            raise TypeError("detailed and force_new must be bools")
+        characters = await self.characters()
+        character = next((entry for entry in characters.characters if entry.identifier == identifier), None)
+        if character is None:
+            raise NotFoundError(f"{resource_url('characters')}#{identifier}", 404)
+        data = await self._load(
+            f"{CHARACTER_BUILDS}/{identifier}",
+            str(character.page_url),
+            CharacterBuild,
+            partial(parse_character_build, expected_identifier=identifier),
+            force_new,
+        )
+        return data if detailed else concise_build(data)
 
     async def gear(self, identifier: str, *, force_new: bool = False) -> Gear:
         """Retrieve one gear piece using an identifier returned by list_gears().

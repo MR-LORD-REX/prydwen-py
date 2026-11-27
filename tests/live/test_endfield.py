@@ -29,3 +29,16 @@ async def test_live_remaining_sections(tmp_path):
         assert (await client.team_tier_list(force_new=True)).tiers
         codes = await client.redeem_codes(force_new=True)
         assert all(code.code for code in codes.codes)
+
+
+@pytest.mark.live
+async def test_live_character_build_and_concise_reuse(tmp_path):
+    async with Prydwen.Endfield(cache_dir=tmp_path, timeout=45) as client:
+        full = await client.character_build("si", force_new=True)
+        assert full.character.identifier == "si" and full.weapons and full.teams
+        assert full.calculations.charts
+        assert any(rotation.kind == "timeline" for team in full.teams for rotation in team.rotations)
+        compact = await client.character_build("si", detailed=False)
+        assert compact.delivery.from_cache and not compact.detailed
+        assert compact.calculations.charts == full.calculations.charts
+        assert compact.teams[0].rotations == full.teams[0].rotations

@@ -16,6 +16,18 @@ Model fields cannot be reassigned. Lists are normal Python lists for ergonomic u
 
 `AllCharacters.characters` contains these summaries and `.total_count` returns their count. Character detail-page content is not represented by fabricated zero stats.
 
+## Character guides
+
+`CharacterBuild` is a single-character dataset with `.character`, `.detailed`, `.availability`, `.updates`, `.review`, `.weapons`, `.gear_sets`, `.gear_pieces`, `.potentials`, `.skill_priority`, `.synergies`, `.teams`, `.calculations`, and `.notes`. Both detailed and concise outputs keep the same structured records. Only descriptive prose is shortened in concise mode; see [character builds](../guides/character-builds.md).
+
+- `CharacterReview` contains per-role `BuildRating` records, pros, cons, and ordered review content. Ratings preserve source tiers such as `T0` and mode labels.
+- `GuideBlock` contains typed content, text, highlights, list items/children, table rows, links, media, and optional team-local rotation references. Highlighted phrases, media, links, and record order remain available in both modes.
+- `EquipmentRef` provides source identity, name, type, optional stats/passive, and assets. `WeaponRecommendation` and `GearRecommendation` attach ranks, explanations, potential/archetype, loadouts, and grouped alternatives. `GearPieceComparison` retains baseline rows and disclaimer markers. `BuildPerformance` stores Decimal comparative percentages with a baseline of 100.
+- `PotentialRecommendation` records upgrade names, explanations, and optional cumulative comparisons. `SkillPriority` preserves the exact expression, skills, and operators. `CharacterSynergy` includes partner identity and explanation.
+- `BuildTeam` keeps `.members`, `.displayed_members`, `.owner_implicit`, ordered `.guide`, and `.rotations`. `TeamRotation` represents either timed `TimelineRow`/`TimelineAction` lanes or ordered `RotationStep` instructions. Timed values use Decimal seconds, with action spans describing the displayed block geometry.
+- `BuildCalculations` contains equipment setups, notes, and optional `DamageDistribution` pies. Each `DamageContribution` preserves its source label and Decimal percentage, including zeros. Chart totals retain published rounding without normalization.
+- `SectionAvailability` distinguishes available, pending, and unavailable sections with their source messages. `BuildUpdates` keeps independent source patch labels for review, build, and teams.
+
 ## Equipment and stats
 
 `Gear` has identifier, source ID, name, slot, displayed level, defense, stats, optional set identifier, and assets. `GearSet` adds name, source code, bonuses, pieces, and piece count. Setless gear remains setless. `Weapon` contains type, rarity, displayed base attack, stat boosts, passive text/rank, and assets; it is currently an internal catalog output used by the list method.
